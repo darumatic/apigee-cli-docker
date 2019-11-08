@@ -1,6 +1,6 @@
 ###########################################
 # Multi-stage build based on https://softwarejourneyman.com/docker-python-install-wheels.html
-FROM python:3-alpine3.10 as base
+FROM python:3-alpine as base
 LABEL maintainer="Matthew Delotavo <matthew@darumatic.com>"
 
 # install pandas dependencies
@@ -18,7 +18,7 @@ RUN pip wheel --wheel-dir=/root/wheels apigeecli
 
 ###########################################
 # Image WITHOUT pandas dependencies but WITH apigeecli
-FROM python:3-alpine3.10
+FROM python:3-alpine
 
 COPY --from=base /root/wheels /root/wheels
 
