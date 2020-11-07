@@ -3,15 +3,15 @@
 FROM python:3-alpine as base
 LABEL maintainer="Matthew Delotavo <matthew@darumatic.com>"
 
-# install pandas dependencies
+# install pandas dependencies (for some older versions of apigeecli)
 # https://stackoverflow.com/a/57842166
-RUN apk add --no-cache --update \
-      python3 python3-dev gcc \
-      gfortran musl-dev g++ \
-      libffi-dev openssl-dev \
-      libxml2 libxml2-dev \
-      libxslt libxslt-dev \
-      libjpeg-turbo-dev zlib-dev
+# RUN apk add --no-cache --update \
+#       python3 python3-dev gcc \
+#       gfortran musl-dev g++ \
+#       libffi-dev openssl-dev \
+#       libxml2 libxml2-dev \
+#       libxslt libxslt-dev \
+#       libjpeg-turbo-dev zlib-dev
 
 # instead of installing, create a wheel
 RUN pip wheel --wheel-dir=/root/wheels apigeecli
@@ -29,4 +29,4 @@ RUN apk add --no-cache libstdc++ \
  && pip install \
       --no-index \
       --find-links=/root/wheels \
-      apigeecli==0.37.3
+      apigeecli==0.47.2
