@@ -29,4 +29,4 @@ RUN apk add --no-cache libstdc++ \
  && pip install \
       --no-index \
       --find-links=/root/wheels \
-      apigeecli==0.47.2
+      apigeecli==0.49.3
