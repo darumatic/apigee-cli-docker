@@ -1,32 +1,20 @@
-###########################################
 # Multi-stage build based on https://softwarejourneyman.com/docker-python-install-wheels.html
 FROM python:3-alpine as base
 LABEL maintainer="Matthew Delotavo <matthew@darumatic.com>"
 
-# install pandas dependencies (for some older versions of apigeecli)
-# https://stackoverflow.com/a/57842166
-# RUN apk add --no-cache --update \
-#       python3 python3-dev gcc \
-#       gfortran musl-dev g++ \
-#       libffi-dev openssl-dev \
-#       libxml2 libxml2-dev \
-#       libxslt libxslt-dev \
-#       libjpeg-turbo-dev zlib-dev
-
-# instead of installing, create a wheel
-RUN pip wheel --wheel-dir=/root/wheels apigeecli
+# Create a wheel for apigeecli
+RUN pip wheel --wheel-dir=/root/wheels apigeecli>=0.51.1
 
 ###########################################
-# Image WITHOUT pandas dependencies but WITH apigeecli
+# Image with apigeecli
 FROM python:3-alpine
 
 COPY --from=base /root/wheels /root/wheels
 
-# Ignore the Python package index
-# and look for archives in
-# /root/wheels directory
+# Install apigeecli from /root/wheels directory and clean up the wheels directory
 RUN apk add --no-cache libstdc++ \
  && pip install \
       --no-index \
       --find-links=/root/wheels \
-      apigeecli==0.49.3
+      "apigeecli>=0.51.1" \
+ && rm -rf /root/wheels
