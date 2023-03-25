@@ -37,7 +37,7 @@ To list all the API proxies in your organization:
 docker run --rm -it darumatic/apigee apigee apis list -h
 ```
 
-Replace <your-username>, <your-password>, and <your-organization> with your Apigee Edge account credentials and organization name.
+Replace with your Apigee Edge account credentials and organization name.
 
 ## Maintainer
 This Dockerfile is maintained by Matthew Delotavo:
